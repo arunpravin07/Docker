@@ -1,0 +1,10 @@
+---
+- name: Installing Java
+  hosts: all
+  become: true     
+
+  tasks:
+  - name: Install Java
+    yum :
+      name: java-11-openjdk
+      state: present

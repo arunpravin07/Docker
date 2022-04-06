@@ -1,0 +1,17 @@
+---
+- name: Ec2 instance creation
+  hosts: all
+  become: true
+
+  tasks:
+  - name: Ec2 instance launch
+    ec2: 
+      instance_type: t2.micro
+      key_name: Ec2-privatekey
+      image: ami-026f33d38b6410e30
+      region: ap-south-1
+      group: default
+      count: 1
+      vpc_subnet_id: subnet-0acd4f63f492e8c3d
+      wait: yes
+      assign_public_ip: yes

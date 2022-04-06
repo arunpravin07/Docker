@@ -1,0 +1,17 @@
+---
+- name: Ec2 instance creation
+  hosts: all
+  become: true
+
+  tasks:    
+  - lightsail:
+          state: present
+     name: test_arun
+     region: ap-south-1
+     zone: ap-south-1a
+     blueprint_id: centos_7_1805_01
+     bundle_id: nano_2_0
+     key_pair_name: id_rsa
+     user_data: " echo 'hello world' > /home/centos/test.txt"
+     wait_timeout: 500
+    register: test_arun

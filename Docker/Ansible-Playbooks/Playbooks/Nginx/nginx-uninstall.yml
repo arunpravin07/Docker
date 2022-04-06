@@ -1,0 +1,35 @@
+---
+- name: nginx uninstall
+  hosts: all
+  become: true
+  vars:
+  - gmail_pwd: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          34613334613565313163346532613331623462653565333632653535663030633938383131363230
+          3064626538386437303736653333663964356464313565660a333665393761653138653630326663
+          39656532363930343062636563353863333039616362343530356337616637346564333631383962
+          3038653562623337360a643838386534653735356336663630613030386538636632336338343839
+          36303739323432663265616632303865663061353533373465316132306665353265
+
+  tasks:
+    - name: "Uninstall NginX"
+      yum:
+        name: nginx
+        state: absent
+    
+    - name: "Stop Nginx Services"
+      service:
+        name: nginx
+        state: stopped
+    - name: Ansible notification
+    mail:
+      host: smtp.gmail.com
+      subtype: html
+      port: 587
+      username: arunpravin012@gmail.com
+      password: "{{gmail_pwd}}"
+      to: saravanakumar_r@solartis.com
+      from: arunpravin012@gmail.com
+      subject: Ansible-notify
+      body: "Nginx Uninstalled Successfully !!"
+    delegate_to: localhost    
